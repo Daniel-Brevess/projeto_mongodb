@@ -54,4 +54,8 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
