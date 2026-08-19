@@ -34,4 +34,9 @@ public class UserService {
 
         return new User(dto.getId(), dto.getName(), dto.getEmail());
     }
+
+    public void delete(String id) {
+        findById(id);
+        userRepository.deleteById(id);
+    }
 }
