@@ -1,6 +1,9 @@
 package org.danielbreves.workshopmongo.resources;
 
 import org.danielbreves.workshopmongo.domain.User;
+import org.danielbreves.workshopmongo.repository.UserRepository;
+import org.danielbreves.workshopmongo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +16,15 @@ import java.util.List;
 @RequestMapping(value="/users")
 public class UserResources {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value="/FindAll")
     public ResponseEntity <List<User>> FindAllUsers(User user) {
 
-        User user1 = new User("1", "Jhon", "jhon@gmail.com");
-        User user2 = new User("2", "Max", "Max@gmail.com");
+        List<User> users = userService.findAll();
+        System.out.println("Quantidade encontrada: " + users.size());
 
-        List<User> users = new ArrayList<>();
-        users.add(user1);
-        users.add(user2);
 
         return ResponseEntity.ok(users);
     }
