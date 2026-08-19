@@ -3,14 +3,14 @@ package org.danielbreves.workshopmongo.resources;
 import org.danielbreves.workshopmongo.domain.User;
 import org.danielbreves.workshopmongo.dto.UserDTO;
 import org.danielbreves.workshopmongo.repository.UserRepository;
+import org.danielbreves.workshopmongo.resources.exception.StandartErrorException;
 import org.danielbreves.workshopmongo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +38,16 @@ public class UserResources {
         User obj = userService.findById(id);
 
         return ResponseEntity.ok().body(new UserDTO(obj));
+    }
+
+    @PostMapping(value="/insert")
+    public ResponseEntity <Void> insert(@RequestBody UserDTO dto) {
+
+        User user = userService.fromDTO(dto);
+        user = userService.insert(user);
+
+       URI uri  = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+       return ResponseEntity.created(uri).build();
     }
 
 }

@@ -1,6 +1,7 @@
 package org.danielbreves.workshopmongo.service;
 
 import org.danielbreves.workshopmongo.domain.User;
+import org.danielbreves.workshopmongo.dto.UserDTO;
 import org.danielbreves.workshopmongo.repository.UserRepository;
 import org.danielbreves.workshopmongo.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,14 @@ public class UserService {
     public User findById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
+    }
+
+    public User insert(User user) {
+        return userRepository.insert(user);
+    }
+
+    public User fromDTO(UserDTO dto) {
+
+        return new User(dto.getId(), dto.getName(), dto.getEmail());
     }
 }
