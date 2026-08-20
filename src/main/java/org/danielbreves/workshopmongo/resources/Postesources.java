@@ -42,4 +42,14 @@ public class Postesources {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value="/authorsearch")
+    public ResponseEntity <List<Post>> findByAuthor(@RequestParam (value = "text", defaultValue = "") String text) throws UnsupportedEncodingException {
+
+        text = URL.decodeParam(text);
+
+        List<Post> list = postService.findByAuthor(text);
+
+        return ResponseEntity.ok().body(list);
+    }
+
 }

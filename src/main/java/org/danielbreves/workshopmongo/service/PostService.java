@@ -27,5 +27,11 @@ public class PostService {
         return postRepository.findByTitleContainingIgnoreCase(text);
     }
 
+    public List<Post> findByAuthor(String name) {
+        return postRepository.findByAuthor(name);
+    }
+
+
+
 
 }
