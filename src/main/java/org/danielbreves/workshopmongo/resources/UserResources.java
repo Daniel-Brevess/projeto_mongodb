@@ -1,6 +1,8 @@
 package org.danielbreves.workshopmongo.resources;
 
+import org.danielbreves.workshopmongo.domain.Post;
 import org.danielbreves.workshopmongo.domain.User;
+import org.danielbreves.workshopmongo.dto.AuthorDTO;
 import org.danielbreves.workshopmongo.dto.UserDTO;
 import org.danielbreves.workshopmongo.repository.UserRepository;
 import org.danielbreves.workshopmongo.resources.exception.StandartErrorException;
@@ -66,6 +68,15 @@ public class UserResources {
         user = userService.update(user);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value="/{id}/posts")
+    public ResponseEntity <List<Post>> findPostsById(@PathVariable("id") String id) {
+
+        User obj = userService.findById(id);
+
+
+        return ResponseEntity.ok().body(obj.getPosts());
     }
 
 }
