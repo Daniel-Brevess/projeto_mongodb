@@ -1,28 +1,43 @@
 package org.danielbreves.workshopmongo.config;
 
+import org.danielbreves.workshopmongo.domain.Post;
 import org.danielbreves.workshopmongo.domain.User;
+import org.danielbreves.workshopmongo.repository.PostRepository;
 import org.danielbreves.workshopmongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+
         userRepository.deleteAll();
+        postRepository.deleteAll();
 
         User user1 = new User(null, "Bob o Construtor", "bobtheconstructor@gmail.com");
         User user2 = new User(null, "Bob Marley", "bobmarley@gmail.com");
         User user3 = new User(null, "Bob Esponja", "bobesponja@gmail.com");
 
+        Post post1 = new Post(null, sdf.parse("20/08/2026"), "Vou construir algo", "quero criar uma casa para meus cachorros", user1);
+        Post post2 = new Post(null, sdf.parse("20/08/2026"), "Vou fazer uma canção", "quero criar uma canção para meus cachorros", user2);
+        Post post3 = new Post(null, sdf.parse("20/08/2026"), "Vou caçar aguas vivas", "eu e patrick vamos caçar aguas vivas para se divertir", user3);
+
+        postRepository.saveAll(Arrays.asList(post1, post2, post3));
         userRepository.saveAll(Arrays.asList(user1,user2,user3));
     }
 
