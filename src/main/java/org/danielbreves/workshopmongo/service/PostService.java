@@ -5,10 +5,12 @@ import org.danielbreves.workshopmongo.domain.User;
 import org.danielbreves.workshopmongo.dto.UserDTO;
 import org.danielbreves.workshopmongo.repository.PostRepository;
 import org.danielbreves.workshopmongo.repository.UserRepository;
+import org.danielbreves.workshopmongo.resources.util.URL;
 import org.danielbreves.workshopmongo.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +31,12 @@ public class PostService {
 
     public List<Post> findByAuthor(String name) {
         return postRepository.findByAuthor(name);
+    }
+
+    public List<Post> fullSearch(String text, Date minDate, Date maxDate) {
+        maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+
+        return postRepository.fullSearch(text, minDate, maxDate);
     }
 
 

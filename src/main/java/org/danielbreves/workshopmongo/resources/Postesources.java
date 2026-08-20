@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.danielbreves.workshopmongo.resources.util.URL;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,20 @@ public class Postesources {
         text = URL.decodeParam(text);
 
         List<Post> list = postService.findByAuthor(text);
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value="/fullsearch")
+    public ResponseEntity <List<Post>> fullSearch(@RequestParam (value = "text", defaultValue = "") String text,
+                                                    @RequestParam (value = "minDate", defaultValue = "") String minDate,
+                                                  @RequestParam (value = "maxDate", defaultValue = "") String maxDate) throws UnsupportedEncodingException {
+
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+
+        List<Post> list = postService.fullSearch(text, min, max);
 
         return ResponseEntity.ok().body(list);
     }
